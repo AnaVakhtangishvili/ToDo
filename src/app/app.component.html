@@ -1,0 +1,89 @@
+<div class="container">
+  <h1 class="display-2 text-center text-capitalize mb-5">todo list</h1>
+
+  <div class="container__form d-flex" >
+    <form class="row gy-2 gx-3 align-items-center" *ngIf="formVisibility">
+      <div class="col-auto">
+        <label class="visually-hidden" for="autoSizingInput">Name</label>
+        <input type="text" class="form-control" id="autoSizingInput" placeholder="Write Task" required #newTodo>
+      </div>
+
+      <div class="col-auto">
+        <label class="visually-hidden" for="autoSizingSelect">Preference</label>
+        <select class="form-select text-capitalize" id="autoSizingSelect" required #newLevel>
+          <option selected disabled="disabled" [ngValue]="undefined">Choose task level</option>
+          <option [ngValue]="level.easy">{{level.easy}}</option>
+          <option [ngValue]="level.medium">{{level.medium}}</option>
+          <option [ngValue]="level.hard">{{level.hard}}</option>
+        </select>
+      </div>
+
+      <div class="col-auto">
+        <button class="btn btn-primary text-capitalize" (click)="addTask(newTodo.value, newLevel.value)">add</button>
+      </div>
+    </form>
+
+    <button type="button" class="btn btn-primary text-capitalize" *ngIf="!formVisibility" (click)="showForm()">new task</button>
+  </div>
+
+  <div class="container__cards d-flex justify-content-between align-items-center flex-wrap mt-5">
+    <div class="card col-lg-3 col-md-5 col-12 mb-3">
+      <div class="card-header text-capitalize">
+        <i class="fa-solid fa-list me-2"></i>
+        {{status.todo}}
+      </div>
+
+      <div class="card-body">
+        <ul class="list-group">
+          <p class="fs-6 text-capitalize text-secondary" *ngIf="!todo.length">list is empty</p>
+          <li class="list-group-item fs-5 text-capitalize" *ngFor="let task of todo">{{task.taskName}}
+            <div class="btn-container d-flex justify-content-end">
+              <button type="button" class="btn btn-danger" (click)="deleteTask(task.id)"><i class="fa-solid fa-trash-can"></i></button>
+              <button type="button" class="btn btn-primary mx-2" (click)="moveInProgress(task.id)"><i class="fa-solid fa-angle-right"></i></button>
+            </div>
+            <span class="badge bg-primary">{{task.taskLevel}}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card col-lg-3 col-md-5 col-12 mb-3">
+      <div class="card-header text-capitalize">
+        <i class="fa-solid fa-list me-2"></i>
+        {{status.inProgress}}
+      </div>
+
+      <div class="card-body">
+        <ul class="list-group">
+          <p class="fs-6 text-capitalize text-secondary" *ngIf="!todo.length">list is empty</p>
+          <li class="list-group-item fs-5 text-capitalize" *ngFor="let task of inProgress">{{task.taskName}}
+            <div class="btn-container d-flex justify-content-end">
+              <button type="button" class="btn btn-primary mx-2" (click)="moveInTodo(task.id)"><i class="fa-solid fa-angle-left"></i></button>
+              <button type="button" class="btn btn-success" (click)="moveInDone(task.id)"><i class="fa-solid fa-angle-right"></i></button>
+            </div>
+            <span class="badge bg-primary">{{task.taskLevel}}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card col-lg-3 col-md-5 col-12 mb-3">
+      <div class="card-header text-capitalize">
+        <i class="fa-solid fa-list me-2"></i>
+        {{status.done}}
+      </div>
+
+      <div class="card-body">
+        <ul class="list-group">
+          <p class="fs-6 text-capitalize text-secondary" *ngIf="!todo.length">list is empty</p>
+          <li class="list-group-item fs-5 text-capitalize" *ngFor="let task of done">{{task.taskName}}
+            <div class="btn-container d-flex justify-content-end">
+              <button type="button" class="btn btn-primary mx-2" (click)="fromDoneToInProgress(task.id)"><i class="fa-solid fa-angle-left"></i></button>
+            </div>
+            <span class="badge bg-primary">{{task.taskLevel}}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
