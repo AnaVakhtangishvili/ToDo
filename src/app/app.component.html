@@ -2,15 +2,15 @@
   <h1 class="display-2 text-center text-capitalize mb-5">todo list</h1>
 
   <div class="container__form d-flex" >
-    <form class="row gy-2 gx-3 align-items-center" *ngIf="formVisibility">
+    <form class="row gy-2 gx-3 align-items-start" *ngIf="formVisibility">
       <div class="col-auto">
-        <label class="visually-hidden" for="autoSizingInput">Name</label>
-        <input type="text" class="form-control" id="autoSizingInput" placeholder="Write Task" required #newTodo>
+        <input type="text" class="form-control" id="autoSizingInput" placeholder="Write Task" #newTodo>
+        <label for="autoSizingInput" class="text-capitalize text-danger" *ngIf="tasknameMissing">{{warning}}</label>
       </div>
 
       <div class="col-auto">
         <label class="visually-hidden" for="autoSizingSelect">Preference</label>
-        <select class="form-select text-capitalize" id="autoSizingSelect" required #newLevel>
+        <select class="form-select text-capitalize" id="autoSizingSelect" #newLevel>
           <option selected disabled="disabled" [ngValue]="undefined">Choose task level</option>
           <option [ngValue]="level.easy">{{level.easy}}</option>
           <option [ngValue]="level.medium">{{level.medium}}</option>
@@ -36,13 +36,17 @@
       <div class="card-body">
         <ul class="list-group">
           <p class="fs-6 text-capitalize text-secondary" *ngIf="!todo.length">{{placeholderText}}</p>
-          <li class="list-group-item fs-5 text-capitalize" *ngFor="let task of todo">{{task.taskName}}
-            <div class="btn-container d-flex justify-content-end">
-              <button type="button" class="btn btn-danger" (click)="deleteTask(task.id)"><i class="fa-solid fa-trash-can"></i></button>
-              <button type="button" class="btn btn-primary mx-2" (click)="moveInProgress(task.id)"><i class="fa-solid fa-angle-right"></i></button>
-            </div>
-            <span class="badge" [ngClass]="addClass(task.taskLevel)">{{task.taskLevel}}</span>
-          </li>
+          <ng-container *ngFor="let task of todo">
+            <ng-container *ngIf="task">
+              <li class="list-group-item fs-5 text-capitalize">{{task.taskName}}
+                <div class="btn-container d-flex justify-content-end">
+                  <button type="button" class="btn btn-danger" (click)="deleteTask(task.id)"><i class="fa-solid fa-trash-can"></i></button>
+                  <button type="button" class="btn btn-primary mx-2" (click)="moveInProgress(task.id)"><i class="fa-solid fa-angle-right"></i></button>
+                </div>
+                <span class="badge" [ngClass]="addClass(task.taskLevel)">{{task.taskLevel}}</span>
+              </li>
+            </ng-container>
+          </ng-container>
         </ul>
       </div>
     </div>
@@ -56,13 +60,17 @@
       <div class="card-body">
         <ul class="list-group">
           <p class="fs-6 text-capitalize text-secondary" *ngIf="!inProgress.length">{{placeholderText}}</p>
-          <li class="list-group-item fs-5 text-capitalize" *ngFor="let task of inProgress">{{task.taskName}}
-            <div class="btn-container d-flex justify-content-end">
-              <button type="button" class="btn btn-primary mx-2" (click)="moveInTodo(task.id)"><i class="fa-solid fa-angle-left"></i></button>
-              <button type="button" class="btn btn-success" (click)="moveInDone(task.id)"><i class="fa-solid fa-angle-right"></i></button>
-            </div>
-            <span class="badge" [ngClass]="addClass(task.taskLevel)">{{task.taskLevel}}</span>
-          </li>
+          <ng-container *ngFor="let task of inProgress">
+            <ng-container *ngIf="task">
+              <li class="list-group-item fs-5 text-capitalize">{{task.taskName}}
+                <div class="btn-container d-flex justify-content-end">
+                  <button type="button" class="btn btn-primary mx-2" (click)="moveInTodo(task.id)"><i class="fa-solid fa-angle-left"></i></button>
+                  <button type="button" class="btn btn-success" (click)="moveInDone(task.id)"><i class="fa-solid fa-angle-right"></i></button>
+                </div>
+                <span class="badge" [ngClass]="addClass(task.taskLevel)">{{task.taskLevel}}</span>
+              </li>
+            </ng-container>
+          </ng-container>
         </ul>
       </div>
     </div>
@@ -76,12 +84,16 @@
       <div class="card-body">
         <ul class="list-group">
           <p class="fs-6 text-capitalize text-secondary" *ngIf="!done.length">{{placeholderText}}</p>
-          <li class="list-group-item fs-5 text-capitalize" *ngFor="let task of done">{{task.taskName}}
-            <div class="btn-container d-flex justify-content-end">
-              <button type="button" class="btn btn-primary mx-2" (click)="fromDoneToInProgress(task.id)"><i class="fa-solid fa-angle-left"></i></button>
-            </div>
-            <span class="badge" [ngClass]="addClass(task.taskLevel)">{{task.taskLevel}}</span>
-          </li>
+          <ng-container *ngFor="let task of done">
+            <ng-container *ngIf="task">
+              <li class="list-group-item fs-5 text-capitalize">{{task.taskName}}
+                <div class="btn-container d-flex justify-content-end">
+                  <button type="button" class="btn btn-primary mx-2" (click)="fromDoneToInProgress(task.id)"><i class="fa-solid fa-angle-left"></i></button>
+                </div>
+                <span class="badge" [ngClass]="addClass(task.taskLevel)">{{task.taskLevel}}</span>
+              </li>
+            </ng-container>
+          </ng-container>
         </ul>
       </div>
     </div>

@@ -6,8 +6,6 @@ interface Task {
   id: number,
 }
 
-type NewTask = Omit<Task, 'id'>;
-
 enum TaskLevel {
   easy = "Easy",
   medium = "Medium",
@@ -30,58 +28,57 @@ export class AppComponent {
 
   initialId: number = 0;
   formVisibility: boolean = false;
+  tasknameMissing: boolean = false;
+  warning: string = 'please write task'
   placeholderText: string = 'this list is empty';
   level = TaskLevel;
   status = Status;
 
-  addNewTask: NewTask = {
-    taskName: '',
-    taskLevel: '',
-  }
-
-  todo: Task[] = [];
-  inProgress: Task[] = [];
-  done: Task[] = [];
+  todo: Array<Task | undefined> = [];
+  inProgress: Array<Task | undefined> = [];
+  done: Array<Task | undefined> = [];
 
   showForm() {
     this.formVisibility = true;
   }
 
   addTask(name: string, level: string) {
-    this.addNewTask.taskName = name;
-    this.addNewTask.taskLevel = level;
-    this.todo.push({taskName: this.addNewTask.taskName, taskLevel: this.addNewTask.taskLevel, id: this.initialId});
+    if (!name) {
+      this.tasknameMissing = true;
+      return;
+    }
+    this.todo.push({taskName: name, taskLevel: level, id: this.initialId});
     this.formVisibility = false;
+    this.tasknameMissing = false;
     this.initialId++;
-    console.log(this.todo);
   }
 
   deleteTask(id: number) {
-    this.todo = this.todo.filter(e => e.id !== id);
+    this.todo = this.todo.filter(e => e?.id !== id);
   }
 
   moveInProgress(id: number) {
-    const element: any = this.todo.find(e => e.id === id);
+    const element = this.todo.find(e => e?.id === id);
     this.inProgress.push(element);
-    this.todo = this.todo.filter(e => e.id !== id);
+    this.todo = this.todo.filter(e => e?.id !== id);
   }
 
   moveInTodo(id: number) {
-    const element: any  = this.inProgress.find(e => e.id === id);
+    const element = this.inProgress.find(e => e?.id === id);
     this.todo.push(element);
-    this.inProgress = this.inProgress.filter(e => e.id !== id);
+    this.inProgress = this.inProgress.filter(e => e?.id !== id);
   }
 
   moveInDone(id: number) {
-    const element: any = this.inProgress.find(e => e.id === id);
+    const element = this.inProgress.find(e => e?.id === id);
     this.done.push(element);
-    this.inProgress = this.inProgress.filter(e => e.id !== id);
+    this.inProgress = this.inProgress.filter(e => e?.id !== id);
   }
 
   fromDoneToInProgress(id: number) {
-    const element: any = this.done.find(e => e.id === id);
+    const element = this.done.find(e => e?.id === id);
     this.inProgress.push(element);
-    this.done = this.done.filter(e => e.id !== id);
+    this.done = this.done.filter(e => e?.id !== id);
   }
 
   addClass(level: string) {
