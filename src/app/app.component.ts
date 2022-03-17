@@ -28,6 +28,7 @@ enum Status {
 export class AppComponent {
   title = 'ToDo';
 
+  initialId: number = 0;
   formVisibility: boolean = false;
   placeholderText: string = 'this list is empty';
   level = TaskLevel;
@@ -49,8 +50,9 @@ export class AppComponent {
   addTask(name: string, level: string) {
     this.addNewTask.taskName = name;
     this.addNewTask.taskLevel = level;
-    this.todo.push({taskName: this.addNewTask.taskName, taskLevel: this.addNewTask.taskLevel, id: this.todo.length});
+    this.todo.push({taskName: this.addNewTask.taskName, taskLevel: this.addNewTask.taskLevel, id: this.initialId});
     this.formVisibility = false;
+    this.initialId++;
   }
 
   deleteTask(id: number) {
@@ -58,26 +60,26 @@ export class AppComponent {
   }
 
   moveInProgress(id: number) {
-    const element: any  = this.todo.find(e => e.id === id);
-    this.inProgress.push({...element, id: this.inProgress.length});
+    const element: any = this.todo.find(e => e.id === id);
+    this.inProgress.push(element);
     this.todo = this.todo.filter(e => e.id !== id);
   }
 
   moveInTodo(id: number) {
     const element: any  = this.inProgress.find(e => e.id === id);
-    this.todo.push({...element, id: this.todo.length});
+    this.todo.push(element);
     this.inProgress = this.inProgress.filter(e => e.id !== id);
   }
 
   moveInDone(id: number) {
     const element: any = this.inProgress.find(e => e.id === id);
-    this.done.push({...element, id: this.done.length});
+    this.done.push(element);
     this.inProgress = this.inProgress.filter(e => e.id !== id);
   }
 
   fromDoneToInProgress(id: number) {
     const element: any = this.done.find(e => e.id === id);
-    this.inProgress.push({...element, id: this.inProgress.length});
+    this.inProgress.push(element);
     this.done = this.done.filter(e => e.id !== id);
   }
 }
