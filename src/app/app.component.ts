@@ -29,6 +29,7 @@ export class AppComponent {
   title = 'ToDo';
 
   formVisibility: boolean = false;
+  placeholderText: string = 'this list is empty';
   level = TaskLevel;
   status = Status;
 
@@ -50,7 +51,6 @@ export class AppComponent {
     this.addNewTask.taskLevel = level;
     this.todo.push({taskName: this.addNewTask.taskName, taskLevel: this.addNewTask.taskLevel, id: this.todo.length});
     this.formVisibility = false;
-    console.log(this.todo);
   }
 
   deleteTask(id: number) {
@@ -61,27 +61,23 @@ export class AppComponent {
     const element: any  = this.todo.find(e => e.id === id);
     this.inProgress.push({...element, id: this.inProgress.length});
     this.todo = this.todo.filter(e => e.id !== id);
-    console.log(element);
   }
 
   moveInTodo(id: number) {
     const element: any  = this.inProgress.find(e => e.id === id);
     this.todo.push({...element, id: this.todo.length});
     this.inProgress = this.inProgress.filter(e => e.id !== id);
-    console.log(element);
   }
 
   moveInDone(id: number) {
     const element: any = this.inProgress.find(e => e.id === id);
     this.done.push({...element, id: this.done.length});
     this.inProgress = this.inProgress.filter(e => e.id !== id);
-    console.log(element); 
   }
 
   fromDoneToInProgress(id: number) {
     const element: any = this.done.find(e => e.id === id);
     this.inProgress.push({...element, id: this.inProgress.length});
     this.done = this.done.filter(e => e.id !== id);
-    console.log(element); 
   }
 }
