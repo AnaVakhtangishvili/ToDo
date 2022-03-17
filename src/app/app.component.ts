@@ -53,6 +53,7 @@ export class AppComponent {
     this.todo.push({taskName: this.addNewTask.taskName, taskLevel: this.addNewTask.taskLevel, id: this.initialId});
     this.formVisibility = false;
     this.initialId++;
+    console.log(this.todo);
   }
 
   deleteTask(id: number) {
@@ -81,5 +82,13 @@ export class AppComponent {
     const element: any = this.done.find(e => e.id === id);
     this.inProgress.push(element);
     this.done = this.done.filter(e => e.id !== id);
+  }
+
+  addClass(level: string) {
+    return {
+    'badge-easy': level === TaskLevel.easy,
+    'badge-medium': level === TaskLevel.medium,
+    'badge-hard': level === TaskLevel.hard
+    }
   }
 }
