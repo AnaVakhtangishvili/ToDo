@@ -55,7 +55,7 @@
 
       <div class="card-body">
         <ul class="list-group">
-          <p class="fs-6 text-capitalize text-secondary" *ngIf="!todo.length">{{placeholderText}}</p>
+          <p class="fs-6 text-capitalize text-secondary" *ngIf="!inProgress.length">{{placeholderText}}</p>
           <li class="list-group-item fs-5 text-capitalize" *ngFor="let task of inProgress">{{task.taskName}}
             <div class="btn-container d-flex justify-content-end">
               <button type="button" class="btn btn-primary mx-2" (click)="moveInTodo(task.id)"><i class="fa-solid fa-angle-left"></i></button>
@@ -75,7 +75,7 @@
 
       <div class="card-body">
         <ul class="list-group">
-          <p class="fs-6 text-capitalize text-secondary" *ngIf="!todo.length">{{placeholderText}}</p>
+          <p class="fs-6 text-capitalize text-secondary" *ngIf="!done.length">{{placeholderText}}</p>
           <li class="list-group-item fs-5 text-capitalize" *ngFor="let task of done">{{task.taskName}}
             <div class="btn-container d-flex justify-content-end">
               <button type="button" class="btn btn-primary mx-2" (click)="fromDoneToInProgress(task.id)"><i class="fa-solid fa-angle-left"></i></button>
